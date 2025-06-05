@@ -1,0 +1,74 @@
+Asumiendo UDD, simplificar en términos de $A_x$ y $(IA)_x$ la prima simple neta de un seguro de vida entero fraccionado a $m$ meses con crecimiento aritmético de $r$ en cada mes de su valor asegurado. 
+
+\begin{align}
+\sum_{k=0}^{\infty} \sum_{j=0}^{m-1} \left(1 + kr + r\frac{j}{m}\right) v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} = \frac{i}{i^{(m)}}[A_x + r[(IA)_x - A_x]] + r\frac{i - i^{(m)}}{(i^{(m)})^2} A_x
+\end{align}
+
+\textbf{Demostración:}
+
+Sabemos que:
+\begin{align}
+A_x^{(m)} &= \sum_{k=0}^{\infty} \sum_{j=0}^{m-1} v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \approx \frac{i}{i^{(m)}} A_x \\
+\sum_{k=0}^{\infty} (1 + kr) \,_k A_{x:1}^{(m)} &= \frac{i}{i^{(m)}} [A_x + r[(IA)_x - A_x]]
+\end{align}
+
+Con $_k A_{x:1}^{(m)} = \frac{i}{i^{(m)}} v^{k+1} \,_k q_x$, entonces:
+
+\begin{align}
+&\sum_{k=0}^{\infty} \sum_{j=0}^{m-1} \left(1 + kr + r\frac{j}{m}\right) v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
+&= \sum_{k=0}^{\infty} \sum_{j=0}^{m-1} (1 + kr) v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
+&\quad + \sum_{k=0}^{\infty} \sum_{j=0}^{m-1} r\frac{j}{m} v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}}
+\end{align}
+
+Analizando las dos sumas por partes:
+
+\textbf{i)} Para la primera suma:
+\begin{align}
+&\sum_{k=0}^{\infty} \sum_{j=0}^{m-1} (1 + kr) v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
+&= \sum_{k=0}^{\infty} (1 + kr) \sum_{j=0}^{m-1} v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
+&= \sum_{k=0}^{\infty} (1 + kr) \,_k A_{x:1}^{(m)} \\
+&= \frac{i}{i^{(m)}} [A_x + r[(IA)_x - A_x]]
+\end{align}
+
+\textbf{ii)} Para la segunda suma:
+\begin{align}
+&\sum_{k=0}^{\infty} \sum_{j=0}^{m-1} r\frac{j}{m} v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
+&= r \sum_{k=0}^{\infty} \sum_{j=0}^{m-1} \frac{j}{m} v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
+&= r \sum_{k=0}^{\infty} v^{k+1} \,_k p_x \sum_{j=0}^{m-1} \frac{j}{m} v^{\frac{j+1}{m}-1} \,_{\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
+&= r \sum_{k=0}^{\infty} v^{k+1} \,_k p_x q_{x+k} \sum_{j=0}^{m-1} \frac{j}{m^2} v^{\frac{j+1}{m}-1} \quad \text{(Utilizando DUM)} \\
+&= r A_x \sum_{j=0}^{m-1} \frac{j}{m^2} v^{\frac{j+1}{m}-1}
+\end{align}
+
+Examinando $v^{\frac{1}{m}} (1 + i) \frac{1}{m^2} \sum_{j=0}^{m-1} j v^{\frac{j}{m}}$, observamos que:
+
+\begin{align}
+v^{\frac{1}{m}} (1 + i) \frac{1}{m^2} \sum_{j=0}^{m-1} j v^{\frac{j}{m}} &= \frac{v^{\frac{1}{m}} (1 + i)}{m^2} \left[\sum_{j=0}^{m} j v^{\frac{j}{m}} - m v\right] \\
+&= \frac{v^{\frac{1}{m}} (1 + i)}{m^2} \sum_{j=0}^{m} j v^{\frac{j}{m}} - \frac{v^{\frac{1}{m}}}{m} \\
+&= v^{\frac{1}{m}} (1 + i) (I^{(m)} \ddot{a})_1^{(m)} - \frac{v^{\frac{1}{m}}}{m} \\
+&= v^{\frac{1}{m}} (1 + i) \left(\ddot{a}_{x:1}^{(m)} - \frac{v}{i^{(m)}}\right) - \frac{v^{\frac{1}{m}}}{m} \\
+&= v^{\frac{1}{m}} (1 + i) \left[\frac{1-v}{d^{(m)}} - \frac{v}{i^{(m)}}\right] - \frac{v^{\frac{1}{m}}}{m} \\
+&= \frac{(1 + i) - 1 - d^{(m)}}{(i^{(m)})^2} - \frac{v^{\frac{1}{m}}}{m} \\
+&= \frac{i - d^{(m)}}{(i^{(m)})^2} - \frac{v^{\frac{1}{m}}}{m}
+\end{align}
+
+Como $v^{\frac{1}{m}} = \frac{1}{1+(i^{(m)})/m} = \frac{m}{m+i^{(m)}}$, entonces:
+
+\begin{align}
+&\frac{m(i - d^{(m)}) - (i^{(m)})^2 v^{\frac{1}{m}}}{(i^{(m)})^2 m} \\
+&= \frac{m(i - d^{(m)}) - (i^{(m)})^2 \frac{m}{m+i^{(m)}}}{(i^{(m)})^2 m} \\
+&= \frac{mi - \frac{i^{(m)} m^2}{m+i^{(m)}} - \frac{(i^{(m)})^2 m}{m+i^{(m)}}}{(i^{(m)})^2 m} \\
+&= \frac{mi - \frac{i^{(m)} m^2 + (i^{(m)})^2 m}{m+i^{(m)}}}{(i^{(m)})^2 m} \\
+&= \frac{m((i-i^{(m)})(m+i^{(m)}))}{(m+i^{(m)})(i^{(m)})^2 m} \\
+&= \frac{i - i^{(m)}}{(i^{(m)})^2}
+\end{align}
+
+Por lo tanto:
+\begin{align}
+r A_x v^{\frac{1}{m}} (1 + i) \frac{1}{m^2} \sum_{j=0}^{m-1} j v^{\frac{j}{m}} = r A_x \frac{i - i^{(m)}}{(i^{(m)})^2}
+\end{align}
+
+Así, juntando i) y ii):
+\begin{align}
+&\sum_{k=0}^{\infty} \sum_{j=0}^{m-1} \left(1 + kr + r\frac{j}{m}\right) v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
+&= \frac{i}{i^{(m)}}[A_x + r[(IA)_x - A_x]] + r\frac{i - i^{(m)}}{(i^{(m)})^2} A_x \quad \blacksquare
+\end{align}
