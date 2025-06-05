@@ -68,10 +68,6 @@ renv/staging/
 !/images/.gitkeep
 
 # Generados por tex
-!docs/*.tex
-!docs/content/*.tex
-!docs/config/*.tex
-!docs/*.bib
 *.aux
 *.bbl
 *.blg
