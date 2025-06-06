@@ -1,5 +1,3 @@
-source("./basicas.R")
-
 D <- function(tabla_mortalidad, x, i, l0 = 100000) {
     ### Validación de datos ###
     if (!is.numeric(x) || x %% 1 != 0 || x < 0) {
