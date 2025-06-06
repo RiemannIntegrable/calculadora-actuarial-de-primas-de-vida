@@ -1,3 +1,5 @@
+source("basicas.R")
+
 D <- function(tabla_mortalidad, x, i){
 
     v <- 1/(1+i) 
