@@ -79,11 +79,17 @@ C <- function(tabla_mortalidad, x, i, l0 = 100000) {
     
     omega <- max(tabla_mortalidad$x)
     if (x >= omega) {
-        return(0)
+        return(0)  # C_ω = 0, no hay muertes después de ω
     }
     
     ### Cálculos ###
-    Cx <- 1/(1+i) * D(tabla_mortalidad, x, i, l0) * tabla_mortalidad[tabla_mortalidad$x == x, "qx"]
+    qx <- tabla_mortalidad[tabla_mortalidad$x == x, "qx"]
+    if (length(qx) == 0) {
+        print(paste("Edad", x, "no encontrada en tabla"))
+        return(NA)
+    }
+    
+    Cx <- (1/(1+i))^(x+1) * lx(x, tabla_mortalidad, l0) * qx
     return(Cx)
 }
 
@@ -112,7 +118,11 @@ M <- function(tabla_mortalidad, x, i, l0 = 100000) {
     }
     
     ### Cálculos ###
-    Mx <- sum(sapply(0:(omega-x), function(k) C(tabla_mortalidad, x+k, i, l0)))
+    if (x == omega) {
+        return(0)
+    }
+    
+    Mx <- sum(sapply(x:(omega-1), function(k) C(tabla_mortalidad, k, i, l0)))
     return(Mx)
 }
 
@@ -136,11 +146,15 @@ R <- function(tabla_mortalidad, x, i, l0 = 100000) {
     }
     
     omega <- max(tabla_mortalidad$x)
-    if (x > omega) {
+    if (x >= omega) {
         return(0)
     }
     
     ### Cálculos ###
-    Rx <- sum(sapply(0:(omega-x), function(k) M(tabla_mortalidad, x+k, i, l0)))
+    if (x == omega) {
+        return(0)
+    }
+    
+    Rx <- sum(sapply(x:(omega-1), function(k) M(tabla_mortalidad, k, i, l0)))
     return(Rx)
 }
