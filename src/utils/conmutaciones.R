@@ -83,7 +83,7 @@ C <- function(tabla_mortalidad, x, i, l0 = 100000) {
     }
     
     ### Cálculos ###
-    Cx <- (1/(1+i))^(x+1) * ndx(1, x, tabla_mortalidad, l0)
+    Cx <- 1/(1+i) * D(tabla_mortalidad, x, i, l0) * tabla_mortalidad[tabla_mortalidad$x == x, "qx"]
     return(Cx)
 }
 
@@ -112,7 +112,7 @@ M <- function(tabla_mortalidad, x, i, l0 = 100000) {
     }
     
     ### Cálculos ###
-    Mx <- sum(sapply(x:(omega-1), function(k) C(tabla_mortalidad, k, i, l0)))
+    Mx <- sum(sapply(0:(omega-x), function(k) C(tabla_mortalidad, x+k, i, l0)))
     return(Mx)
 }
 
@@ -141,6 +141,6 @@ R <- function(tabla_mortalidad, x, i, l0 = 100000) {
     }
     
     ### Cálculos ###
-    Rx <- sum(sapply(x:omega, function(k) N(tabla_mortalidad, k, i, l0)))
+    Rx <- sum(sapply(0:(omega-x), function(k) M(tabla_mortalidad, x+k, i, l0)))
     return(Rx)
 }
