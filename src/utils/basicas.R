@@ -87,7 +87,7 @@ lx <- function(x, tabla_mortalidad, l0 = 100000) {
     return(lx)
 }
 
-ndx <- function(n, x, tabla_mortalidad) {
+ndx <- function(n, x, tabla_mortalidad, l0 = 100000) {
     ### Validacion de datos ###
     if (!is.numeric(x) || x %% 1 != 0 || x < 0) {
         print("x debe ser un entero no negativo")
@@ -108,7 +108,7 @@ ndx <- function(n, x, tabla_mortalidad) {
     }
 
     ### Calculos ###
-    ndx <- lx(x, tabla_mortalidad) - lx(x + n, tabla_mortalidad)
+    ndx <- lx(x, tabla_mortalidad, l0) - lx(x + n, tabla_mortalidad, l0)
     return(ndx)
 }
 
