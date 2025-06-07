@@ -8,20 +8,18 @@ px <- function(x, tabla_mortalidad) {
         print("tabla_mortalidad debe ser un data frame")
         return(NA)
     }
-    
+
+    x_min <- min(tabla_mortalidad$x)
     omega <- max(tabla_mortalidad$x)
+    if (x < x_min) {
+        return(NA)
+    }
     if (x >= omega) {
         return(0)  # px = 0 porque qx = 1
     }
-    
-    qx <- tabla_mortalidad[tabla_mortalidad$x == x, "qx"]
-    
-    if (length(qx) == 0) {
-        print(paste("Edad", x, "no encontrada en tabla"))
-        return(NA)
-    }
 
     ### Calculos ###
+    qx <- tabla_mortalidad[tabla_mortalidad$x == x, "qx"]
     px <- 1 - qx
     return(px)
 }
@@ -41,9 +39,13 @@ tpx <- function(t, x, tabla_mortalidad) {
         return(NA)
     }
     
+    x_min <- min(tabla_mortalidad$x)
     omega <- max(tabla_mortalidad$x)
+    if (x < x_min) {
+        return(NA)
+    }
     if (x >= omega || x + t - 1 >= omega) {
-        return(0)  # No puede sobrevivir más allá de omega
+        return(0)
     }
     
     if (t == 0) {
@@ -57,7 +59,7 @@ tpx <- function(t, x, tabla_mortalidad) {
 }
 
 lx <- function(x, tabla_mortalidad, l0 = 100000) {
-    ### Validacion de datos ###
+    ### Validación de datos ###
     if (!is.numeric(x) || x %% 1 != 0 || x < 0) {
         print("x debe ser un entero no negativo")
         return(NA)
@@ -71,20 +73,28 @@ lx <- function(x, tabla_mortalidad, l0 = 100000) {
         return(NA)
     }
     
+    # Obtener rango de edades de la tabla
+    x_min <- min(tabla_mortalidad$x)
     omega <- max(tabla_mortalidad$x)
+    
+    # Casos especiales
+    if (x < x_min) {
+        return(NA)  # No hay datos antes del inicio de la tabla
+    }
     if (x > omega) {
         return(0)  # No hay sobrevivientes después de omega
     }
-    
-    if (x == 0) {
-        return(l0)
+    if (x == x_min) {
+        return(l0)  # Base en la primera edad disponible
     }
     
-    ### Calculos ###
-    prob_supervivencia <- tpx(x, 0, tabla_mortalidad)
+    ### Cálculos ###
+    # Calcular supervivencia desde x_min hasta x
+    prob_supervivencia <- tpx(x - x_min, x_min, tabla_mortalidad)
     if (is.na(prob_supervivencia)) return(NA)
-    lx <- l0 * prob_supervivencia
-    return(lx)
+    
+    lx_resultado <- l0 * prob_supervivencia
+    return(lx_resultado)
 }
 
 ndx <- function(n, x, tabla_mortalidad, l0 = 100000) {
@@ -102,9 +112,13 @@ ndx <- function(n, x, tabla_mortalidad, l0 = 100000) {
         return(NA)
     }
     
+    x_min <- min(tabla_mortalidad$x)
     omega <- max(tabla_mortalidad$x)
     if (x > omega) {
-        return(0)  # No hay muertes después de omega
+        return(0)
+    }
+    if (x < x_min) {
+        return(NA)
     }
 
     ### Calculos ###
@@ -112,8 +126,8 @@ ndx <- function(n, x, tabla_mortalidad, l0 = 100000) {
     return(ndx)
 }
 
-S0 <- function(t, tabla_mortalidad) {
-    ### Validacion de datos ###
+S <- function(t, tabla_mortalidad) {
+    ### Validación de datos ###
     if (!is.numeric(t) || t %% 1 != 0 || t < 0) {
         print("t debe ser un entero no negativo")
         return(NA)
@@ -123,17 +137,20 @@ S0 <- function(t, tabla_mortalidad) {
         return(NA)
     }
     
+    # Obtener rango de edades
+    x_min <- min(tabla_mortalidad$x)
     omega <- max(tabla_mortalidad$x)
+
     if (t > omega) {
-        return(0)  # Función de supervivencia es 0 después de omega
+        return(0)
     }
 
-    ### Calculos ###
-    S0t <- lx(t, tabla_mortalidad) / lx(0, tabla_mortalidad)
+    ### Cálculos ###
+    St <- tpx(t, x_min, tabla_mortalidad)
     return(S0t)
 }
 
-f0 <- function(t, tabla_mortalidad) {
+f <- function(t, tabla_mortalidad) {
     ### Validacion de datos ###
     if (!is.numeric(t) || t %% 1 != 0 || t < 0) {
         print("t debe ser un entero no negativo")
@@ -146,12 +163,12 @@ f0 <- function(t, tabla_mortalidad) {
     
     omega <- max(tabla_mortalidad$x)
     if (t >= omega) {
-        return(0)  # Densidad es 0 en omega y después
+        return(0)
     }
 
     ### Calculos ###
-    f0t <- S0(t, tabla_mortalidad) - S0(t + 1, tabla_mortalidad)
-    return(f0t)
+    ft <- S(t, tabla_mortalidad) - S(t + 1, tabla_mortalidad) # \Delta = 1
+    return(ft)
 }
 
 mu <- function(x, tabla_mortalidad) {
@@ -165,17 +182,21 @@ mu <- function(x, tabla_mortalidad) {
         return(NA)
     }
     
+    x_min <- min(tabla_mortalidad$x)
     omega <- max(tabla_mortalidad$x)
     if (x >= omega) {
         return(Inf)  # Fuerza de mortalidad infinita en omega
     }
+    if (x < x_min) {
+        return(NA)  # No hay datos antes del inicio de la tabla
+    }
     
     ### Calculos ###
-    S0_x <- S0(x, tabla_mortalidad)
-    if (S0_x == 0) {
+    Sx <- S(x, tabla_mortalidad)
+    if (Sx == 0) {
         return(Inf)  # División por cero implica mortalidad infinita
     }
     
-    mux <- f0(x, tabla_mortalidad) / S0_x
+    mux <- f(x, tabla_mortalidad) / Sx
     return(mux)
 }
