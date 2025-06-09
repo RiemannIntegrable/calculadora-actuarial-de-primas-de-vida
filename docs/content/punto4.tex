@@ -1,0 +1,29 @@
+Queremos caracterizar la prima de un seguro fraccionario con el siguiente patrón de valor asegurado geométrico:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{../images/Screenshot 2025-06-04 140654.png}
+\end{figure}
+
+Primero analizamos como es el seguro discreto, calculando la esperanza del valor asegurado descontado el año en que se pagaría: 
+
+\begin{align*}
+    (G_rA)_x &= \sum_{k=0}^{\infty} (1+r)^k \cdot v^{k+1} \cdot {}_k p_x \cdot q_{x+k} \\
+    &= \sum_{k=0}^{\infty} (1+r)^k \cdot \left(\frac{1}{1+i}\right)^{k+1} \cdot {}_k p_x \cdot q_{x+k} \\
+    &= \frac{1}{1+i} \sum_{k=0}^{\infty} (1+r)^k \cdot \left(\frac{1}{1+i}\right)^k \cdot {}_k p_x \cdot q_{x+k} \\
+    &= \frac{1}{1+i} \sum_{k=0}^{\infty} \left(\frac{1+r}{1+i}\right)^k \cdot {}_k p_x \cdot q_{x+k} \\
+    &= \frac{1}{1+i} \sum_{k=0}^{\infty} \left(\frac{1}{1+e}\right)^k \cdot {}_k p_x \cdot q_{x+k} \\
+    &= \frac{1}{1+i} \cdot (1+e) \sum_{k=0}^{\infty} \left(\frac{1}{1+e}\right)^{k+1} \cdot {}_k p_x \cdot q_{x+k} \\
+    &= \frac{1}{1+i} \cdot (1+e) \cdot A_x@e \\
+    &= \frac{1+e}{1+i} \cdot A_x@e \\
+    &= \frac{(1+i)/(1+r)}{1+i} \cdot A_x@e \\
+    &= \frac{1}{1+r} A_x@e
+\end{align*}
+
+Ahora simplemente usamos UDD para ver que:
+
+\begin{equation*}
+    (G_rA^{(m)})_x = \frac{i}{i^{(m)}(1+r)} A_x@e
+\end{equation*}
+
+Esto es lo que esta programado en \texttt{punto4.R}.

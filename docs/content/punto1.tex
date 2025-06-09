@@ -1,0 +1,30 @@
+Queremos caracterizar la prima de un seguro fraccionario con el siguiente patrón de valor asegurado:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{../images/Screenshot 2025-06-04 140629.png}
+\end{figure}
+
+Sabemos que eso es simplemente la suma de todas las primas de los seguros fraccionarios temporales diferidos multiplicadas por el valor asegurado de ese momento, es decir: 
+
+\begin{equation*}
+    (I_rA^{(m)})_x = \sum_{k=0}^\infty (1 + kr) {}_{k|}A^{(m)}_{\overset{1}{x}:\angl{1}}
+\end{equation*}
+
+Para poder realizar los cálculos utilizando la tabla de mortalidad vamos a asumir UDD, por lo que tenemos:
+
+\begin{align*}
+    \sum_{k=0}^\infty (1 + kr) {}_{k|}A^{(m)}_{\overset{1}{x}:\angl{1}} &= \sum_{k=0}^\infty (1 + kr) \cdot \frac{i}{i^{(m)}} \cdot {}_{k|}A_{\overset{1}{x}:\angl{1}} \\
+    &= \frac{i}{i^{(m)}} \sum_{k=0}^\infty (1 + kr) {}_{k|}A_{\overset{1}{x}:\angl{1}} & \text{(Usamos UDD)}\\
+    &= \frac{i}{i^{(m)}} \left[ \sum_{k=0}^\infty {}_{k|}A_{\overset{1}{x}:\angl{1}} + r \sum_{k=0}^\infty k \cdot {}_{k|}A_{\overset{1}{x}:\angl{1}} \right] \\
+\end{align*}
+
+\begin{align*}
+    &= \frac{i}{i^{(m)}} \left[ \sum_{k=0}^\infty v^k \cdot {}_{k}p_x \cdot q_{x+k} + r \sum_{k=0}^\infty k \cdot v^k \cdot {}_{k}p_x \cdot q_{x+k} \right] \\
+    &= \frac{i}{i^{(m)}} \left[ A_x + r \sum_{k=0}^\infty k \cdot v^k \cdot {}_{k}p_x \cdot q_{x+k} \right] \\
+    &= \frac{i}{i^{(m)}} \left[ A_x + r \left( \sum_{k=0}^\infty (k+1) v^k \cdot {}_{k}p_x \cdot q_{x+k} - \sum_{k=0}^\infty v^k \cdot {}_{k}p_x \cdot q_{x+k} \right) \right] \\
+    &= \frac{i}{i^{(m)}} \left[ A_x + r \left( (IA)_x - A_x \right) \right] \\
+    &= \frac{i}{i^{(m)}} [A_x + r((IA)_x - A_x)]
+\end{align*}
+
+Esto es lo que esta programado en \texttt{punto1.R}. Para ejecutar la función el único requisito es que la tabla de mortalidad sea un dataframe de \texttt{R} y que tenga al menos las columnas \texttt{x} y \texttt{qx}. La función no requiere una edad mínima en la tabla porque detecta la edad mínima y máxima y sobre eso realiza los cálculos. La función también tiene una pequeña validación del tipo de los datos antes de realizar los cálculos.

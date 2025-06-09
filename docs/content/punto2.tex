@@ -1,0 +1,14 @@
+Queremos caracterizar la prima de un seguro fraccionario con el siguiente patrón de valor asegurado creciente dentro del año:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{../images/Screenshot 2025-06-04 135626.png}
+\end{figure}
+
+Sabemos que es la esperanza del pago descontado a valor presente, es decir: 
+
+\begin{equation*}
+    (I^{(m)}_rA^{(m)})_x = \sum_{k=0}^\infty \sum_{j=0}^{m-1} \left(1+r\left(k+\frac{j}{m}\right)\right) v^{k+\frac{j+1}{m}} {}_{k + \frac{j}{m}|\frac{1}{m}} q_x
+\end{equation*}
+
+Para poder realizar los cálculos utilizando la tabla de mortalidad vamos a asumir UDD. El desarrollo de esto esta en la siguiente demostración y la implementación esta en \texttt{punto2.R} y tiene los mismos requerimientos que la función anterior.
