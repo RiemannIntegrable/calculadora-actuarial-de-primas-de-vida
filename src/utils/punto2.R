@@ -62,7 +62,7 @@ ImrAmx <- function(tabla_mortalidad, x, r, i, m) {
     }))
     
     ### Prima fraccionaria con valor asegurado creciente dentro del año asumiendo UDD ###
-    ImrAmx <- (i/im) * (Ax + r*(IAx - Ax)) + r*((i-im)/(im^2))
+    ImrAmx <- (i/im) * (Ax + r*(IAx - Ax)) + r*((i-im)/(im^2))*Ax
     
     return(ImrAmx)
 }
