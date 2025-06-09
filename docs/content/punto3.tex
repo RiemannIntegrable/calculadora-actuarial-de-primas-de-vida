@@ -1,74 +1,113 @@
-Asumiendo UDD, simplificar en términos de $A_x$ y $(IA)_x$ la prima simple neta de un seguro de vida entero fraccionado a $m$ meses con crecimiento aritmético de $r$ en cada mes de su valor asegurado. 
+\begin{theorem}
+    Consideremos un seguro de vida entero para una persona de edad $x$, donde el valor asegurado sigue el siguiente patron temporal:
+    
+    \begin{figure}[H]
+        \center
+        \includegraphics[scale=0.3]{../images/Screenshot 2025-06-04 135626.png}
+    \end{figure}
+    
+    Bajo la hipótesis UDD la prima simple neta de este seguro es:
 
-\begin{align}
-\sum_{k=0}^{\infty} \sum_{j=0}^{m-1} \left(1 + kr + r\frac{j}{m}\right) v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} = \frac{i}{i^{(m)}}[A_x + r[(IA)_x - A_x]] + r\frac{i - i^{(m)}}{(i^{(m)})^2} A_x
-\end{align}
+    \begin{equation}
+        P.S.N. = \frac{i}{i^{(m)}}[A_x + r((IA)_x - A_x)] + r \left[\frac{i - i^{(m)}}{\left(i^{(m)}\right)^2}\right]
+    \end{equation}
 
-\textbf{Demostración:}
+\end{theorem}
+    
+\begin{proof}
 
-Sabemos que:
-\begin{align}
-A_x^{(m)} &= \sum_{k=0}^{\infty} \sum_{j=0}^{m-1} v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \approx \frac{i}{i^{(m)}} A_x \\
-\sum_{k=0}^{\infty} (1 + kr) \,_k A_{x:1}^{(m)} &= \frac{i}{i^{(m)}} [A_x + r[(IA)_x - A_x]]
-\end{align}
+    La definición de la prima neta de un seguro es la esperanza del valor presente del pago. Como el año esta fraccionado en $m$ partes, la probabilidad de realizar el pago al final de la $j$-esima parte del año $k$ es simplemente la probabilidad de que la persona de edad $(x)$ haya sobrevivido $k+\frac{j}{m}$ años y muera pasados $\frac{1}{m}$, es decir ${}_{k + \frac{j}{m}|\frac{1}{m}}q_x$. Simplemente traemos a valor presente con la tasa de descuento $v$ elevado al tiempo transcurrido hasta el pago que es $k + \frac{j+1}{m}$ el pago que es $(1 + r(k + \frac{j}{m}))$. Asi, la prima de este seguro es: 
 
-Con $_k A_{x:1}^{(m)} = \frac{i}{i^{(m)}} v^{k+1} \,_k q_x$, entonces:
+    \begin{equation}
+        P.S.N. = \sum_{k=0}^\infty \sum_{j=0}^{m-1} \left(1+r\left(k+\frac{j}{m}\right)\right) v^{k+\frac{j+1}{m}} {}_{k + \frac{j}{m}|\frac{1}{m}} q_x
+    \end{equation}
 
-\begin{align}
-&\sum_{k=0}^{\infty} \sum_{j=0}^{m-1} \left(1 + kr + r\frac{j}{m}\right) v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
-&= \sum_{k=0}^{\infty} \sum_{j=0}^{m-1} (1 + kr) v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
-&\quad + \sum_{k=0}^{\infty} \sum_{j=0}^{m-1} r\frac{j}{m} v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}}
-\end{align}
+    Observemos que el valor asegurado se puede reescribir como:
+    \[1 + r\left(k + \frac{j}{m}\right) = (1 + rk) + r \frac{j}{m}\]
+    
+    Por lo tanto, la prima neta única se puede expresar como:
+    \[\sum_{k=0}^\infty \sum_{j=0}^{m-1} \left[(1 + rk) + r \frac{j}{m}\right] v^{k+\frac{j+1}{m}} {}_{k + \frac{j}{m}|\frac{1}{m}} q_x\]
+    
+    Así, aplicando la propiedad distributiva:
+    \begin{align*}
+    P.S.N. &= \sum_{k=0}^\infty \sum_{j=0}^{m-1} (1 + rk) v^{k+\frac{j+1}{m}} {}_{k + \frac{j}{m}|\frac{1}{m}} q_x + \sum_{k=0}^\infty \sum_{j=0}^{m-1} r \frac{j}{m} v^{k+\frac{j+1}{m}} {}_{k + \frac{j}{m}|\frac{1}{m}} q_x \\
+    &= \text{Parte I} + \text{Parte II}
+    \end{align*}
+    
+    Para la Parte I:
+    
+    \begin{align*}
+        \text{Parte I} &= \sum_{k=0}^\infty \sum_{j=0}^{m-1} (1 + kr) v^{k+\frac{j+1}{m}} {}_{k+\frac{j}{m}|\frac{1}{m}} q_x \\
+        &= \sum_{k=0}^\infty (1 + kr) \sum_{j=0}^{m-1} v^{k+\frac{j+1}{m}} {}_{k+\frac{j}{m}|\frac{1}{m}} q_x 
+    \end{align*}
 
-Analizando las dos sumas por partes:
+    Pero observe que $\sum_{j=0}^{m-1} v^{k+\frac{j+1}{m}} {}_{k+\frac{j}{m}|\frac{1}{m}} q_x$ es la prima de un seguro temporal de un año (m posibles pagos de un año fraccionado en $m$ partes) con valor asegurado de 1 pagadero al final del la fracción del año de muerte pero diferido $k$ años. Es decir\\
 
-\textbf{i)} Para la primera suma:
-\begin{align}
-&\sum_{k=0}^{\infty} \sum_{j=0}^{m-1} (1 + kr) v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
-&= \sum_{k=0}^{\infty} (1 + kr) \sum_{j=0}^{m-1} v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
-&= \sum_{k=0}^{\infty} (1 + kr) \,_k A_{x:1}^{(m)} \\
-&= \frac{i}{i^{(m)}} [A_x + r[(IA)_x - A_x]]
-\end{align}
+    \begin{align*}
+        \text{Parte I} &= \sum_{k=0}^\infty (1 + kr) \sum_{j=0}^{m-1} v^{k+\frac{j+1}{m}} {}_{k+\frac{j}{m}|\frac{1}{m}} q_x \\
+        &= \sum_{k=0}^\infty (1 + kr) {}_{k|}A^{(m)}_{\overset{1}{x}:\angl{1}}
+    \end{align*}
+    
+    Por lo tanto, la parte I es un seguro con incremento aritmético anual de r pero es pagadero al final de la fracción del año de muerte. Sabemos que bajo UDD la prima de este seguro es:
+    
+    \begin{equation}
+        \text{Parte I} = \frac{i}{i^{(m)}} [A_x + r((IA)_x - A_x)]
+    \end{equation}
+    
+    Para la Parte II:
 
-\textbf{ii)} Para la segunda suma:
-\begin{align}
-&\sum_{k=0}^{\infty} \sum_{j=0}^{m-1} r\frac{j}{m} v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
-&= r \sum_{k=0}^{\infty} \sum_{j=0}^{m-1} \frac{j}{m} v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
-&= r \sum_{k=0}^{\infty} v^{k+1} \,_k p_x \sum_{j=0}^{m-1} \frac{j}{m} v^{\frac{j+1}{m}-1} \,_{\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
-&= r \sum_{k=0}^{\infty} v^{k+1} \,_k p_x q_{x+k} \sum_{j=0}^{m-1} \frac{j}{m^2} v^{\frac{j+1}{m}-1} \quad \text{(Utilizando DUM)} \\
-&= r A_x \sum_{j=0}^{m-1} \frac{j}{m^2} v^{\frac{j+1}{m}-1}
-\end{align}
+    \begin{align*}
+        \text{Parte II} &= \sum_{k=0}^{\infty} \sum_{j=0}^{m-1} r\frac{j}{m} v^{k+\frac{j+1}{m}} {}_{k+\frac{j}{m}}p_x \cdot {}_{\frac{1}{m}}q_{x+k+\frac{j}{m}}\\
+        &= r \sum_{k=0}^{\infty} \sum_{j=0}^{m-1} \frac{j}{m} v^{k+\frac{j+1}{m}+1-1} {}_{k+\frac{j}{m}}p_x \cdot {}_{\frac{1}{m}}q_{x+k+\frac{j}{m}}\\
+        &= r \sum_{k=0}^{\infty} \sum_{j=0}^{m-1} \frac{j}{m} v^{k+\frac{j+1}{m}+1-1} {}_kp_x \cdot {}_{\frac{j}{m}}p_{x+k} \cdot {}_{\frac{1}{m}}q_{x+k+\frac{j}{m}}\\
+        &= r \sum_{k=0}^{\infty} v^{k+1} {}_kp_x \sum_{j=0}^{m-1} \frac{j}{m} v^{\frac{j+1}{m}-1} {}_{\frac{j}{m}}p_{x+k} \cdot {}_{\frac{1}{m}}q_{x+k+\frac{j}{m}}\\
+        &= r \sum_{k=0}^{\infty} v^{k+1} {}_kp_x \sum_{j=0}^{m-1} \frac{j}{m} v^{\frac{j+1}{m}-1} {}_{\frac{j}{m}|\frac{1}{m}}q_{x+k}\\
+        &= r \sum_{k=0}^{\infty} v^{k+1} {}_kp_x \sum_{j=0}^{m-1} \frac{j}{m} v^{\frac{j+1}{m}-1} \frac{1}{m}q_{x+k} \text{ (Utilizando DUM)}\\
+        &= r \sum_{k=0}^{\infty} v^{k+1} {}_kp_x \cdot q_{x+k} \sum_{j=0}^{m-1} \frac{j}{m^2} v^{\frac{j+1}{m}-1}\\
+        &= r A_x \sum_{j=0}^{m-1} \frac{j}{m^2} v^{\frac{j+1}{m}-1} \text{(Reorganizamos la suma, def. $A_x$)}\\
+        &= r A_x v^{\frac{1}{m}} (1 + i) \frac{1}{m^2} \sum_{j=0}^{m-1} j v^{\frac{j}{m}}
+    \end{align*}
 
-Examinando $v^{\frac{1}{m}} (1 + i) \frac{1}{m^2} \sum_{j=0}^{m-1} j v^{\frac{j}{m}}$, observamos que:
+    Analicemos unicamente $v^{\frac{1}{m}} (1 + i) \frac{1}{m^2} \sum_{j=0}^{m-1} j v^{\frac{j}{m}}$:
+    
+    \begin{align*}
+        v^{\frac{1}{m}} (1 + i) \frac{1}{m^2} \sum_{j=0}^{m-1} j v^{\frac{j}{m}} &=\frac{v^{\frac{1}{m}} (1 + i)}{m^2} \left( \sum_{j=0}^{m-1} j v^{\frac{j}{m}} + m v^{\frac{m}{m}} - m v^{\frac{m}{m}} \right)\\
+        &= \frac{v^{\frac{1}{m}} (1 + i)}{m^2} \left( \sum_{j=0}^{m} j v^{\frac{j}{m}} - m v \right)\\
+        &= v^{\frac{1}{m}} (1 + i) \frac{1}{m^2} \sum_{j=0}^{m} j v^{\frac{j}{m}} - \frac{v^{\frac{1}{m}}}{m}\\
+        &= v^{\frac{1}{m}} (1 + i) (I^{(m)}\ddot{a})^{(m)}_\angl{1} - \frac{v^{\frac{1}{m}}}{m}\\
+        &= v^{\frac{1}{m}} (1 + i) \left( \frac{\ddot{a}^{(m)}_{x:\angl{1}} - v}{i^{(m)}} \right) - \frac{v^{\frac{1}{m}}}{m}\\
+        &= v^{\frac{1}{m}} (1 + i) \left[ \frac{1-v}{d^{(m)}} - \frac{v}{i^{(m)}} \right] - \frac{v^{\frac{1}{m}}}{m}\\
+        &= v^{\frac{1}{m}} (1 + i) \left( \frac{1 - v - v d^{(m)}}{i^{(m)}d^{(m)}} \right) - \frac{v^{\frac{1}{m}}}{m}\\
+        &= v^{\frac{1}{m}} (1 + i) \left( \frac{1 - v - v d^{(m)}}{i^{(m)}i^{(m)}v^{\frac{1}{m}}} \right) - \frac{v^{\frac{1}{m}}}{m}\\
+        &= \frac{(1+i) - 1 - d^{(m)}}{(i^{(m)})^2} v^{\frac{1}{m}} - \frac{v^{\frac{1}{m}}}{m}\\
+        &= \frac{i - d^{(m)}}{(i^{(m)})^2} v^{\frac{1}{m}} - \frac{v^{\frac{1}{m}}}{m}\\
+        &= \frac{m \left( i - d^{(m)} \right) - (i^{(m)})^2 v^{\frac{1}{m}}}{(i^{(m)})^2 m}
+    \end{align*}
 
-\begin{align}
-v^{\frac{1}{m}} (1 + i) \frac{1}{m^2} \sum_{j=0}^{m-1} j v^{\frac{j}{m}} &= \frac{v^{\frac{1}{m}} (1 + i)}{m^2} \left[\sum_{j=0}^{m} j v^{\frac{j}{m}} - m v\right] \\
-&= \frac{v^{\frac{1}{m}} (1 + i)}{m^2} \sum_{j=0}^{m} j v^{\frac{j}{m}} - \frac{v^{\frac{1}{m}}}{m} \\
-&= v^{\frac{1}{m}} (1 + i) (I^{(m)} \ddot{a})_1^{(m)} - \frac{v^{\frac{1}{m}}}{m} \\
-&= v^{\frac{1}{m}} (1 + i) \left(\ddot{a}_{x:1}^{(m)} - \frac{v}{i^{(m)}}\right) - \frac{v^{\frac{1}{m}}}{m} \\
-&= v^{\frac{1}{m}} (1 + i) \left[\frac{1-v}{d^{(m)}} - \frac{v}{i^{(m)}}\right] - \frac{v^{\frac{1}{m}}}{m} \\
-&= \frac{(1 + i) - 1 - d^{(m)}}{(i^{(m)})^2} - \frac{v^{\frac{1}{m}}}{m} \\
-&= \frac{i - d^{(m)}}{(i^{(m)})^2} - \frac{v^{\frac{1}{m}}}{m}
-\end{align}
+    Como $v^{\frac{1}{m}} = \frac{1}{1+(i^{(m)})/m} = \frac{m}{m+i^{(m)}}$ entonces
 
-Como $v^{\frac{1}{m}} = \frac{1}{1+(i^{(m)})/m} = \frac{m}{m+i^{(m)}}$, entonces:
+    \begin{align*}
+        \frac{m \left( i - d^{(m)} \right) - (i^{(m)})^2 v^{\frac{1}{m}}}{(i^{(m)})^2 m} &= \frac{m \left( i - d^{(m)} \right) - (i^{(m)})^2 \left( \frac{m}{m+i^{(m)}} \right)}{(i^{(m)})^2 m}\\
+        &= \frac{m \left( i - \frac{i^{(m)}m}{m+i^{(m)}} \right) - (i^{(m)})^2 \frac{m}{m+i^{(m)}}}{(i^{(m)})^2 m}\\
+        &= \frac{mi - \frac{i^{(m)} m^2}{m+i^{(m)}} - \frac{(i^{(m)})^2 m}{m+i^{(m)}}}{(i^{(m)})^2 m}\\
+        &= \frac{mi - \frac{i^{(m)} m^2 + (i^{(m)})^2 m}{m+i^{(m)}}}{(i^{(m)})^2 m}\\
+        &= \frac{m^2 i + i m i^{(m)} - i^{(m)} m^2 - (i^{(m)})^2 m}{m+i^{(m)}} \frac{1}{(i^{(m)})^2 m}\\
+        &= \frac{m \left( m i + i i^{(m)} - i^{(m)} m - (i^{(m)})^2 \right)}{m+i^{(m)}} \frac{1}{(i^{(m)})^2 m}\\
+        &= \frac{m(m(i-i^{(m)}) + i^{(m)}(i-i^{(m)}))}{m+i^{(m)}} \frac{1}{(i^{(m)})^2 m}\\
+        &= \frac{m((i-i^{(m)})(m+i^{(m)}))}{m+i^{(m)}} \frac{1}{(i^{(m)})^2 m}\\
+        &= \frac{\cancel{m} \left( i - i^{(m)} \right) \cancel{(m+i^{(m)})}}{\cancel{(m+i^{(m)})}} \frac{1}{(i^{(m)})^2 \cancel{m}}\\
+        &= \frac{\left( i - i^{(m)} \right)}{(i^{(m)})^2}
+\end{align*}
 
-\begin{align}
-&\frac{m(i - d^{(m)}) - (i^{(m)})^2 v^{\frac{1}{m}}}{(i^{(m)})^2 m} \\
-&= \frac{m(i - d^{(m)}) - (i^{(m)})^2 \frac{m}{m+i^{(m)}}}{(i^{(m)})^2 m} \\
-&= \frac{mi - \frac{i^{(m)} m^2}{m+i^{(m)}} - \frac{(i^{(m)})^2 m}{m+i^{(m)}}}{(i^{(m)})^2 m} \\
-&= \frac{mi - \frac{i^{(m)} m^2 + (i^{(m)})^2 m}{m+i^{(m)}}}{(i^{(m)})^2 m} \\
-&= \frac{m((i-i^{(m)})(m+i^{(m)}))}{(m+i^{(m)})(i^{(m)})^2 m} \\
-&= \frac{i - i^{(m)}}{(i^{(m)})^2}
-\end{align}
+    Por lo tanto
 
-Por lo tanto:
-\begin{align}
-r A_x v^{\frac{1}{m}} (1 + i) \frac{1}{m^2} \sum_{j=0}^{m-1} j v^{\frac{j}{m}} = r A_x \frac{i - i^{(m)}}{(i^{(m)})^2}
-\end{align}
+    $$r A_x v^{\frac{1}{m}} (1 + i) \frac{1}{m^2} \sum_{j=0}^{m-1} j v^{\frac{j}{m}} = r A_x \frac{\left( i - i^{(m)} \right)}{(i^{(m)})^2}$$
 
-Así, juntando i) y ii):
-\begin{align}
-&\sum_{k=0}^{\infty} \sum_{j=0}^{m-1} \left(1 + kr + r\frac{j}{m}\right) v^{k+\frac{j+1}{m}} \,_{k+\frac{j}{m}}p_x \frac{1}{m} q_{x+k+\frac{j}{m}} \\
-&= \frac{i}{i^{(m)}}[A_x + r[(IA)_x - A_x]] + r\frac{i - i^{(m)}}{(i^{(m)})^2} A_x \quad \blacksquare
-\end{align}
+    así, sumando las dos partes tenemos que:
+
+    \begin{equation}
+        P.S.N. = \sum_{k=0}^\infty \sum_{j=0}^{m-1} \left(1+r\left(k+\frac{j}{m}\right)\right) v^{k+\frac{j+1}{m}} {}_{k + \frac{j}{m}|\frac{1}{m}} q_x = \frac{i}{i^{(m)}} [A_x + r[(IA)_x - A_x]] + r \frac{\left( i - i^{(m)} \right)}{(i^{(m)})^2} A_x
+    \end{equation}
+
+    Que es lo que se quería demostrar.
+\end{proof}

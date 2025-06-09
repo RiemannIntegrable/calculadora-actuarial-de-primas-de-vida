@@ -24,6 +24,31 @@ px <- function(x, tabla_mortalidad) {
     return(px)
 }
 
+qx <- function(x, tabla_mortalidad) {
+    ### Validacion de datos ###
+    if (!is.numeric(x) || x %% 1 != 0 || x < 0) {
+        print("x debe ser un entero no negativo")
+        return(NA)
+    }
+    if (!is.data.frame(tabla_mortalidad)) {
+        print("tabla_mortalidad debe ser un data frame")
+        return(NA)
+    }
+
+    x_min <- min(tabla_mortalidad$x)
+    omega <- max(tabla_mortalidad$x)
+    if (x < x_min) {
+        return(NA)
+    }
+    if (x >= omega) {
+        return(1)
+    }
+
+    ### Calculos ###
+    qx <- tabla_mortalidad[tabla_mortalidad$x == x, "qx"]
+    return(qx)
+}
+
 tpx <- function(t, x, tabla_mortalidad) {
     ### Validacion de datos ###
     if (!is.numeric(t) || t %% 1 != 0 || t < 0) {
@@ -141,13 +166,13 @@ S <- function(t, tabla_mortalidad) {
     x_min <- min(tabla_mortalidad$x)
     omega <- max(tabla_mortalidad$x)
 
-    if (t > omega) {
+    if (t > omega - x_min) {
         return(0)
     }
 
     ### Cálculos ###
     St <- tpx(t, x_min, tabla_mortalidad)
-    return(S0t)
+    return(St)
 }
 
 f <- function(t, tabla_mortalidad) {
